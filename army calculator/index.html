@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공군 지원 점수 계산기</title>
+    <link href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>공군 지원 점수 계산기</h1>
+        
+        <div class="field-selection">
+            <button id="generalButton" class="field-button active">일반기술병</button>
+            <button id="specializedButton" class="field-button">전문기술병</button>
+        </div>
+
+        <form id="scoreForm">
+            <div id="transportGroup" class="form-group" style="display: none;">
+                <label>차량운전 직종 여부:</label>
+                <div class="radio-group">
+                    <label><input type="radio" name="transport" value="yes"> 예</label>
+                    <label><input type="radio" name="transport" value="no"> 아니오</label>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>자격/면허:</label>
+                <div id="certificateButtons" class="button-group"></div>
+                <p class="info">※ 자격증은 중복되지 않고 가장 높은 점수의 자격증 1개만 인정됩니다.</p>
+            </div>
+
+            <div id="majorGroup" class="form-group" style="display: none;">
+                <label for="major">전공 학과:</label>
+                <select id="major" name="major">
+                    <option value="40">대학교 4학년 수료 이상 (40점)</option>
+                    <option value="38">대학교 4학년 재학 (38점)</option>
+                    <option value="36">대학교 3학년 수료 또는 전문대(3년제) 졸업 (36점)</option>
+                    <option value="34">대학교 3학년 재학 (34점)</option>
+                    <option value="32">대학교 2학년 수료 또는 전문대(2년제) 졸업 (32점)</option>
+                    <option value="30">대학교 2학년 재학 (30점)</option>
+                    <option value="28">대학교 1학년 수료/재학 (28점)</option>
+                    <option value="34">고졸 전공자 (34점)</option>
+                    <option value="20">비전공/고퇴이하 (20점)</option>
+                </select>
+                <p class="info">※ 전문기술병의 경우 전공 학과 배점이 적용됩니다.</p>
+            </div>
+
+            <div class="form-group">
+                <label for="attendance">고교 출결사항:</label>
+                <input type="number" id="absenceDays" name="absenceDays" min="0" placeholder="결석 일수" required>
+                <input type="number" id="lateDays" name="lateDays" min="0" placeholder="지각/조퇴 횟수" required>
+                <input type="number" id="leaveDays" name="leaveDays" min="0" placeholder="결과 횟수" required>
+                <p class="info">
+                    ※ 고등학교 3년간 누계 결석일수, 지각/조퇴 횟수, 결과 횟수를 입력하세요.<br>
+                    ※ 지각/조퇴 2회는 결석 1일로 계산됩니다.<br>
+                    ※ 결과 2회는 지각/조퇴 1회로 계산됩니다.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="volunteerHours">봉사활동 시간 (최근 1년):</label>
+                <input type="number" id="volunteerHours" name="volunteerHours" min="0" required>
+                <p class="info">
+                    ※ 최근 1년 이내의 봉사활동 시간을 입력하세요.<br>
+                    ※ 봉사활동은 VMS, 1365자원봉사포털, DOVOL에서 인증된 활동만 인정됩니다.
+                </p>
+            </div>
+
+            <div class="form-group">
+                <label for="bloodDonations">헌혈 횟수 (최근 1년):</label>
+                <input type="number" id="bloodDonations" name="bloodDonations" min="0" required>
+                <p class="info">※ 최근 1년 이내의 헌혈 횟수를 입력하세요.</p>
+            </div>
+
+            <div class="form-group">
+                <h3>가산점 (최대 15점):</h3>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="veteran" name="veteran"> 국가유공자 자녀 (4점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="multiChild3" name="multiChild3"> 다자녀(3명 이상) 가정 자녀 (4점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="multiChild2" name="multiChild2"> 다자녀(2명) 가정 자녀 (2점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="koreanHistory1" name="koreanHistory1"> 한국사능력검정 1~2급 (2점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="koreanHistory2" name="koreanHistory2"> 한국사능력검정 3~4급 (1점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="koreanLanguage1" name="koreanLanguage1"> 한국어능력검정 1~2급 (2점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="koreanLanguage2" name="koreanLanguage2"> 한국어능력검정 3~4급 (1점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="englishScore1" name="englishScore1"> 영어성적 (TOEIC 730이상 등) (2점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="englishScore2" name="englishScore2"> 영어성적 (TOEIC 520~729점 등) (1점)</label>
+                </div>
+                <div class="checkbox-group">
+                    <label><input type="checkbox" id="militaryCareerDesign" name="militaryCareerDesign"> 병역진로설계 군 추천특기 지원 (1점)</label>
+                </div>
+                <p class="info">※ 가산점은 최대 15점까지만 인정됩니다.</p>
+            </div>
+
+            <button type="submit" class="calculate-btn">점수 계산</button>
+        </form>
+
+        <div id="result" class="hidden">
+            <h2>총 점수: <span id="totalScore"></span>점</h2>
+            <p>자격/면허 점수: <span id="certificateScore"></span>점</p>
+            <p id="majorScoreDisplay" style="display: none;">전공 점수: <span id="majorScore"></span>점</p>
+            <p>출결 점수: <span id="attendanceScore"></span>점</p>
+            <p>가산점: <span id="bonusScore"></span>점</p>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
